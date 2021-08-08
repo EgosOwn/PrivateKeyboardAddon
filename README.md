@@ -2,7 +2,7 @@
 
 Did you know that websites can identify you based on the way you type?
 
-There are spy frameworks that can determine how long keys are held down and the time between keys. This is apparently good enough for spying that it can be used as a form of biometric authentication, by companies like Keytrac and TypingDNA. According to TypingDNA, their software has been used for test proctoring, and in banking apps.
+There are spy libraries that can determine how long keys are held down and the time between keys. This is apparently good enough for spying that it can be used as a form of biometric authentication, by companies like Keytrac and TypingDNA. According to TypingDNA, their software has been used for test proctoring, and in banking apps.
 
 This addon was created to skew the key press timing by limiting the speed of presses. The speed is changed randomly on each page load, with a max of 75ms.
 
