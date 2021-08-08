@@ -1,4 +1,4 @@
-# Private Keyboard - anti-biometrics Firefox addon 🔒 ⌨️ 🔒
+# Private Keyboard - anti-biometrics Firefox addon 🦊 ⌨️ 🔒
 
 Did you know that websites can identify you based on the way you type?
 
