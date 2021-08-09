@@ -19,7 +19,7 @@
 const defaultHosts = "<all_urls>";
 
 let appCode = function (){
-  const maxValue = 75
+  const maxValue = 100
 
   let mainKeyboardPrivacy = function(){
 
@@ -28,7 +28,7 @@ let appCode = function (){
       while (true){
         window.crypto.getRandomValues(buf);
 
-        if (buf[0] < maxValue){
+        if (buf[0] <= maxValue){
           break
         }
         buf = new Uint8Array(1);
@@ -70,6 +70,10 @@ let appCode = function (){
     }, 100)
   }
   function shouldRunKeyboardPrivacy(value){
+    if (typeof value.keyboardprivacywhitelist !== undefined){
+      mainKeyboardPrivacy()
+      return
+    }
     let vals = value.keyboardprivacywhitelist.split(',')
     for (i = 0; i < vals.length; i++){
       if (vals[i] === document.location.hostname || vals[i] === 'www.' + document.location.hostname){
