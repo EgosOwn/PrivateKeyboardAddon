@@ -57,11 +57,17 @@ let appCode = function (){
     setTimeout(function(){
 
       document.addEventListener('keyup', function(e){
+        if (e.key.startsWith('Arrow') || e.key.startsWith('Page')){
+          return true;
+        }
         pausecomp(dwellTime);
         return true;
       }, )
 
       document.addEventListener('keydown', function(e){
+        if (e.key.startsWith('Arrow') || e.key.startsWith('Page')){
+          return true;
+        }
         pausecomp(gapTime);
         return true;
       })
