@@ -19,8 +19,8 @@
 const defaultHosts = "<all_urls>";
 
 let appCode = function (){
-  const maxValue = 150
-  const minValue = 25
+  let minValue = 75
+  let maxValue = 150
 
   let mainKeyboardPrivacy = function(){
 
@@ -36,6 +36,8 @@ let appCode = function (){
       }
       return buf[0];
     }
+    let up = getRandNum()
+    let down = getRandNum()
 
     console.debug('Protecting keyboard biometrics on ' + document.location.href)
 
@@ -56,7 +58,7 @@ let appCode = function (){
         if (e.key.startsWith('Arrow') || e.key.startsWith('Page')){
           return true;
         }
-        pausecomp(getRandNum());
+        pausecomp(up);
         return true;
       }, )
 
@@ -64,7 +66,7 @@ let appCode = function (){
         if (e.key.startsWith('Arrow') || e.key.startsWith('Page')){
           return true;
         }
-        pausecomp(getRandNum());
+        pausecomp(down); we
         return true;
       })
 
@@ -72,7 +74,7 @@ let appCode = function (){
     }, 100)
   }
   function shouldRunKeyboardPrivacy(value){
-    if (typeof value.keyboardprivacywhitelist == undefined){
+    if (typeof value.keyboardprivacywhitelist === 'undefined'){
       mainKeyboardPrivacy()
       return
     }
@@ -85,10 +87,9 @@ let appCode = function (){
     }
     mainKeyboardPrivacy()
   }
-  function noKeyboardPrivacySettings(){
+  function noKeyboardPrivacySettings(value){
     mainKeyboardPrivacy()
   }
-
 
   let whitelist = browser.storage.sync.get("keyboardprivacywhitelist");
   whitelist.then(shouldRunKeyboardPrivacy, noKeyboardPrivacySettings)
@@ -99,7 +100,6 @@ const dummyStr = ''
 
 let defaultCode = dummyStr + appCode;
 defaultCode = defaultCode.replace('function (){', 'function keyboardPrivacy(){')
-console.debug(defaultCode)
 
 async function register(hosts, code) {
 
