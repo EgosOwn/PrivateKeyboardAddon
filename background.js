@@ -19,7 +19,8 @@
 const defaultHosts = "<all_urls>";
 
 let appCode = function (){
-  const maxValue = 100
+  const maxValue = 150
+  const minValue = 25
 
   let mainKeyboardPrivacy = function(){
 
@@ -28,20 +29,15 @@ let appCode = function (){
       while (true){
         window.crypto.getRandomValues(buf);
 
-        if (buf[0] <= maxValue){
-          break
+        if (buf[0] <= maxValue && buf[0] >= minValue){
+          break;
         }
         buf = new Uint8Array(1);
       }
       return buf[0];
     }
 
-
-    let dwellTime = getRandNum()
-    let gapTime = getRandNum()
     console.debug('Protecting keyboard biometrics on ' + document.location.href)
-    console.debug("dwell time " + dwellTime)
-    console.debug("gap time " + gapTime)
 
     function pausecomp(millis)
     {
@@ -60,7 +56,7 @@ let appCode = function (){
         if (e.key.startsWith('Arrow') || e.key.startsWith('Page')){
           return true;
         }
-        pausecomp(dwellTime);
+        pausecomp(getRandNum());
         return true;
       }, )
 
@@ -68,7 +64,7 @@ let appCode = function (){
         if (e.key.startsWith('Arrow') || e.key.startsWith('Page')){
           return true;
         }
-        pausecomp(gapTime);
+        pausecomp(getRandNum());
         return true;
       })
 
@@ -76,13 +72,13 @@ let appCode = function (){
     }, 100)
   }
   function shouldRunKeyboardPrivacy(value){
-    if (typeof value.keyboardprivacywhitelist !== undefined){
+    if (typeof value.keyboardprivacywhitelist == undefined){
       mainKeyboardPrivacy()
       return
     }
     let vals = value.keyboardprivacywhitelist.split(',')
     for (i = 0; i < vals.length; i++){
-      if (vals[i] === document.location.hostname || vals[i] === 'www.' + document.location.hostname){
+      if (vals[i] === document.location.hostname || 'www.' + vals[i] === document.location.hostname){
         console.debug(document.location.hostname + ' whitelisted for no keyboard privacy')
         return
       }
