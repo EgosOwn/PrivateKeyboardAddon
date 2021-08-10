@@ -1,0 +1,41 @@
+body{
+    font-family: Arial, Helvetica, sans-serif;
+}
+header{
+    font-size: 25px;
+}
+
+#reloadPage{
+    display: none;
+}
+
+button {
+    margin-top: 10px;
+	box-shadow:inset 0px 1px 0px 0px #bee2f9;
+	background-color:#307cac;
+	border-radius:6px;
+	border:1px solid #3866a3;
+	display:inline-block;
+	cursor:pointer;
+	color:white;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 10px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #7cacde;
+    width: 75%;
+    margin-left: 15%;
+}
+button:hover {
+	background:linear-gradient(to bottom, #468ccf 5%, #63b8ee 100%);
+	background-color:#468ccf;
+}
+button:active {
+	position:relative;
+	top:1px;
+}
+button[disabled=true]{
+    opacity: 50%;
+}
+
