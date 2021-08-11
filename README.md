@@ -1,5 +1,11 @@
 # Private Keyboard - anti-biometrics Firefox addon 🦊 ⌨️ 🔒
 
+![logo](./icons/keyboard-ico.png)
+
+https://addons.mozilla.org/en-US/firefox/addon/private-keyboard/
+
+----
+
 Did you know that websites can identify you based on the way you type?
 
 There are spy libraries that can determine how long keys are held down and the time between keys. This is apparently good enough for spying that it can be used as a form of biometric authentication, by companies like Keytrac and TypingDNA. According to TypingDNA, their software has been used for test proctoring, and in banking apps.
