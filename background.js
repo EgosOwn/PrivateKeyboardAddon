@@ -66,12 +66,43 @@ let appCode = function (){
         if (e.key.startsWith('Arrow') || e.key.startsWith('Page')){
           return true;
         }
-        pausecomp(down); we
+        pausecomp(down);
         return true;
       })
 
 
     }, 100)
+  }
+  function checkForLANThenRun(){
+
+    let lan = browser.storage.sync.get("keyboardprivacylan");
+    lan.then(function(val){
+
+      if (! val['keyboardprivacylan']){
+        mainKeyboardPrivacy()
+      }
+      else{
+        let hostname = document.location.hostname
+        if (/^(10)\.(.*)\.(.*)\.(.*)$/.test(hostname)){
+          //10.x.x.x
+        }else if (/^(172)\.(1[6-9]|2[0-9]|3[0-1])\.(.*)\.(.*)$/.test(hostname)){
+          //172.16.x.x - 172.31.255.255
+        }else if (/^(192)\.(168)\.(.*)\.(.*)$/.test(hostname)){
+          //192.168.x.x
+        }else if (/^(127)\.(.*)\.(.*)\.(.*)$/.test(hostname)){
+        }
+        else if (hostname == '[::1]'){
+        }
+        else {
+          mainKeyboardPrivacy()
+          return
+        }
+
+        console.debug("Not running private keyboard because lan/loopback hostname")
+      }
+
+    }, function(val){mainKeyboardPrivacy()})
+
   }
   function shouldRunKeyboardPrivacy(value){
     if (typeof value.keyboardprivacywhitelist === 'undefined'){
@@ -85,7 +116,8 @@ let appCode = function (){
         return
       }
     }
-    mainKeyboardPrivacy()
+    checkForLANThenRun()
+
   }
   function noKeyboardPrivacySettings(value){
     mainKeyboardPrivacy()

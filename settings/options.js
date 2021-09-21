@@ -17,19 +17,29 @@
 
 */
 function saveOptions(e) {
-    e.preventDefault();
+    e.preventDefault()
     browser.storage.sync.set({
         keyboardprivacywhitelist: document.querySelector("#whitelist").value
-    });
+    })
+    browser.storage.sync.set({
+      keyboardprivacylan: document.querySelector("#whitelistLAN").checked
+    })
+    document.getElementById('saved').innerHTML = '<br><b>Saved</b>'
+    setTimeout(function(){
+      document.getElementById('saved').innerHTML = '<br>'
+    }, 3000)
   }
 
   function restoreOptions() {
 
-    function setCurrentChoice(result) {
+    function setCurrentWhitelist(result) {
         if (result['keyboardprivacywhitelist']){
             document.querySelector("#whitelist").value = result['keyboardprivacywhitelist']
         }
 
+    }
+    function setCurrentLAN(result){
+      document.querySelector("#whitelistLAN").checked = result['keyboardprivacylan']
     }
 
     function onError(error) {
@@ -37,7 +47,10 @@ function saveOptions(e) {
     }
 
     let getting = browser.storage.sync.get("keyboardprivacywhitelist");
-    getting.then(setCurrentChoice, onError);
+    getting.then(setCurrentWhitelist, onError);
+
+    let gettingLAN = browser.storage.sync.get("keyboardprivacylan");
+    gettingLAN.then(setCurrentLAN, onError);
   }
 
   document.addEventListener("DOMContentLoaded", restoreOptions);
