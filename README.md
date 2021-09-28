@@ -18,7 +18,7 @@ You can whitelist domains that you trust on the addon settings page, but it was 
 
 Development Roadmap:
 
-* Menu button to add whitelisted domain more quickly
+* ~~Menu button to add whitelisted domain more quickly~~
 * Buffered window/menu/popup option to type quickly but prevent page surveillance
 * More throrough testing against different avenues of keyboard surveillance
 * Stylometry protection
