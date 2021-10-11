@@ -36,8 +36,8 @@ Development Roadmap:
 
 Sources:
 
-https://www.keytrac.net/en/
-https://www.typingdna.com/
+www dot keytrac dot net/en/
+www dot typingdna dot com/
 https://www.whonix.org/wiki/Stylometry
 [https://www.whonix.org/wiki/Keystroke_Deanonymization](https://www.whonix.org/wiki/Keystroke_Deanonymization)
 

@@ -21,8 +21,47 @@ const defaultHosts = "<all_urls>";
 let appCode = function (){
   let minValue = 75
   let maxValue = 150
+  let time = 0
+  let last = null
+
+  let doPopup = function(e) {
+    let text = ""
+    let inputType = ""
+
+    if (e.target.tagName === "INPUT"){
+      inputType = e.target.getAttribute("type")
+
+      if (Date.now() - time < 1000 && e.target === last){
+        return
+      }
+      if (! inputType){
+        text = prompt("[PrivateKeyboard]\n\nEnter text for the text field:", e.target.value)
+      }
+      else if (! ["text", "search", "email", "password", "number"].includes(inputType.toLowerCase())){
+        return
+      }
+      else{
+        if (inputType == "password"){
+          inputType = "password (SHOWN IN PLAIN TEXT)"
+        }
+        text = prompt("[PrivateKeyboard]\n\nEnter text for the " + inputType + " field:", e.target.value)
+      }
+      e.target.value = text
+      last = e.target
+      time = Date.now()
+    }
+
+  }
+
+  let popupMode = function(){
+
+
+    document.addEventListener('focusin', doPopup, true)
+
+  }
 
   let mainKeyboardPrivacy = function(){
+    popupMode()
 
     function getRandNum(){
       let buf = new Uint8Array(1)
@@ -63,9 +102,23 @@ let appCode = function (){
       }, )
 
       document.addEventListener('keydown', function(e){
-        if (e.key.startsWith('Arrow') || e.key.startsWith('Page')){
+        if (e.key.startsWith('Arrow') || e.key.startsWith('Page') ||
+
+        e.key == "Enter" || e.key == "Control" || e.key == "Tab"
+        ){
           return true;
         }
+        else if (e.key.length > 1 && e.key.startsWith("F")){
+          // Ignore function keys (unicode can also be >1 length so check for f)
+          return true;
+        }
+        else{
+          console.debug(e.key)
+        }
+
+        setTimeout(
+          function(){doPopup(e)}, 10)
+
         pausecomp(down);
         return true;
       })
