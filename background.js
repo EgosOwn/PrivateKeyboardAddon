@@ -19,6 +19,13 @@
 const defaultHosts = "<all_urls>";
 
 let appCode = function (){
+  let popupEnabled = false
+  let popupGetter = browser.storage.sync.get("keyboardprivacyprompt")
+  popupGetter.then(function(val){
+    popupEnabled = val['keyboardprivacyprompt']
+    console.debug(popupEnabled)
+  }, function(){})
+
   let clearSelect = function()
   {
     if (window.getSelection) {window.getSelection().removeAllRanges()}
@@ -45,13 +52,10 @@ let appCode = function (){
       if (! inputType){
         text = prompt("[PrivateKeyboard]\n\nEnter text for the text field:", e.target.value)
       }
-      else if (! ["text", "search", "email", "password", "number"].includes(inputType.toLowerCase())){
+      else if (! ["text", "search", "email", "number"].includes(inputType.toLowerCase())){
         return
       }
       else{
-        if (inputType == "password"){
-          inputType = "password (SHOWN IN PLAIN TEXT)"
-        }
         text = prompt("[PrivateKeyboard]\n\nEnter text for the " + inputType + " field:", e.target.value)
       }
       if (text !== null) {
@@ -66,8 +70,9 @@ let appCode = function (){
 
   let popupMode = function(){
 
-
-    document.addEventListener('focusin', doPopup, true)
+    if (popupEnabled){
+      document.addEventListener('focusin', doPopup, true)
+    }
 
   }
 
@@ -124,11 +129,12 @@ let appCode = function (){
           return true;
         }
         else{
-          console.debug(e.key)
         }
 
-        setTimeout(
-          function(){doPopup(e)}, 10)
+        if (popupEnabled){
+          setTimeout(
+            function(){doPopup(e)}, 10)
+        }
 
         pausecomp(down);
         return true;

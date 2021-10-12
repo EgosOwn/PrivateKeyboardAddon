@@ -24,6 +24,9 @@ function saveOptions(e) {
     browser.storage.sync.set({
       keyboardprivacylan: document.querySelector("#whitelistLAN").checked
     })
+    browser.storage.sync.set({
+      keyboardprivacyprompt: document.querySelector("#usePrompt").checked
+    })
     document.getElementById('saved').innerHTML = '<br><b>Saved</b>'
     setTimeout(function(){
       document.getElementById('saved').innerHTML = '<br>'
@@ -42,6 +45,10 @@ function saveOptions(e) {
       document.querySelector("#whitelistLAN").checked = result['keyboardprivacylan']
     }
 
+    function setCurrentPrompt(result){
+      document.querySelector("#usePrompt").checked = result['keyboardprivacyprompt']
+    }
+
     function onError(error) {
       console.log(`Error: ${error}`);
     }
@@ -51,6 +58,9 @@ function saveOptions(e) {
 
     let gettingLAN = browser.storage.sync.get("keyboardprivacylan");
     gettingLAN.then(setCurrentLAN, onError);
+
+    let gettingPrompt = browser.storage.sync.get("keyboardprivacyprompt");
+    gettingPrompt.then(setCurrentPrompt, onError);
   }
 
   document.addEventListener("DOMContentLoaded", restoreOptions);

@@ -12,7 +12,7 @@ There are spy libraries that can determine how long keys are held down and the t
 
 This addon was created to skew the key press timing by limiting the speed of presses. The speed is changed randomly on each page load, with a min of 150ms and a max of 300ms.
 
-It uses a less than ideal thread locking solution, as simply buffering text does not stop event listeners from spies.
+It uses a less than ideal thread locking solution, as simply buffering text does not stop event listeners from spies. **Now it also has a non-default setting to use prompt() on non-password single line input elements. This reduces CPU usage and increase typing speed while offering better protection than the delay approach.**
 
 You can whitelist domains that you trust on the addon settings page, but it was decided not to support changing the key speed manually as that would add another fingerprinting avenue.
 
