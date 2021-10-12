@@ -19,6 +19,14 @@
 const defaultHosts = "<all_urls>";
 
 let appCode = function (){
+  let clearSelect = function()
+  {
+    if (window.getSelection) {window.getSelection().removeAllRanges()}
+    else if
+      (document.selection) {
+        document.selection.empty()
+      }
+  }
   let minValue = 75
   let maxValue = 150
   let time = 0
@@ -46,8 +54,11 @@ let appCode = function (){
         }
         text = prompt("[PrivateKeyboard]\n\nEnter text for the " + inputType + " field:", e.target.value)
       }
-      e.target.value = text
+      if (text !== null) {
+        e.target.value = text
+      }
       last = e.target
+      clearSelect()
       time = Date.now()
     }
 
