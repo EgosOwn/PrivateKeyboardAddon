@@ -29,6 +29,7 @@ Development Roadmap:
 
 * **This addon may not defeat all types of keyboard biometric surveillance**, however it was tested against the Keytrac and TypingDNA demos and it worked well.
 * **This addon does not yet deal with stylometry**
+* Some websites override all key events in which case it is not (yet) possible to protect against keyboarding analysis there
 * You may see higher CPU usage while typing. This is due do the unideal locking solution described above
 * Do not confuse this with spying keyboard apps on mobile devices, this cannot address that.
 * Not tested on Firefox Android
@@ -37,8 +38,8 @@ Development Roadmap:
 Sources:
 
 www dot keytrac dot net/en/
+
 www dot typingdna dot com/
+
 https://www.whonix.org/wiki/Stylometry
 [https://www.whonix.org/wiki/Keystroke_Deanonymization](https://www.whonix.org/wiki/Keystroke_Deanonymization)
-
-(Spy companies not linked to avoid helping their SEO)
