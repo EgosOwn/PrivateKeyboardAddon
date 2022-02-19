@@ -16,6 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 */
+let lastActive = null
 const defaultHosts = "<all_urls>";
 
 let appCode = function (){
@@ -201,41 +202,56 @@ let appCode = function (){
 
 
   browser.runtime.onMessage.addListener(request => {
-    clearTimeout(bufferTimeout)
+
     console.log(request.keys);
+    if (request.keys == "GetSet"){
+      keyBuffer = elementToSendBuffer.value
+      return Promise.resolve({response: elementToSendBuffer.value});
+    }
+
+    clearTimeout(bufferTimeout)
+
     if (request.keys == "Backspace"){
       keyBuffer = keyBuffer.slice(0, -1)
+    }
+    else if(request.keys.length > 4){
+       // pass
     }
     else{
       keyBuffer += request.keys;
     }
-    bufferTimeout = setTimeout(function(){sendBuffer()}, 1000)
+    if (request.isEmpty){
+      keyBuffer = ""
+      sendBuffer()
+    }
+    bufferTimeout = setTimeout(function(){sendBuffer()}, 100)
     return Promise.resolve({response: "ack"});
   });
 
   function sendBuffer(){
 
     if (elementToSendBuffer == null){
-      bufferTimeout = setTimeout(function(){sendBuffer()}, 1000)
+      bufferTimeout = setTimeout(function(){sendBuffer()}, 100)
       return
     }
     console.debug("sending buffer to " + elementToSendBuffer)
 
-
-
-    if (keyBuffer.length > 0){
-      elementToSendBuffer.value = keyBuffer
-    }
+    elementToSendBuffer.value = keyBuffer
 
   }
 
   function setSendEl(e){
-    if (document.activeElement.tagName != "INPUT"){
+    let activeEl = document.activeElement
+    if (activeEl.tagName != "INPUT" && activeEl.tagName != "TEXTAREA"){
+      keyBuffer = ""
       return
     }
-    console.debug("active el is " + document.activeElement.tagName)
-    elementToSendBuffer = document.activeElement
+
+    console.debug("active el is " + activeEl.tagName)
+    elementToSendBuffer = activeEl
+    keyBuffer = activeEl.value
   }
+
 
   document.addEventListener('focus', setSendEl)
   document.addEventListener('click', setSendEl)
