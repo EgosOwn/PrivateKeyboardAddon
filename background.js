@@ -19,6 +19,9 @@
 const defaultHosts = "<all_urls>";
 
 let appCode = function (){
+  let keyBuffer = ""
+  let elementToSendBuffer = null
+  let bufferTimeout = setTimeout(function(){}, 1)
   let popupEnabled = false
   let popupGetter = browser.storage.sync.get("keyboardprivacyprompt")
   popupGetter.then(function(val){
@@ -195,6 +198,48 @@ let appCode = function (){
 
   let whitelist = browser.storage.sync.get("keyboardprivacywhitelist");
   whitelist.then(shouldRunKeyboardPrivacy, noKeyboardPrivacySettings)
+
+
+  browser.runtime.onMessage.addListener(request => {
+    clearTimeout(bufferTimeout)
+    console.log(request.keys);
+    if (request.keys == "Backspace"){
+      keyBuffer = keyBuffer.slice(0, -1)
+    }
+    else{
+      keyBuffer += request.keys;
+    }
+    bufferTimeout = setTimeout(function(){sendBuffer()}, 1000)
+    return Promise.resolve({response: "ack"});
+  });
+
+  function sendBuffer(){
+
+    if (elementToSendBuffer == null){
+      bufferTimeout = setTimeout(function(){sendBuffer()}, 1000)
+      return
+    }
+    console.debug("sending buffer to " + elementToSendBuffer)
+
+
+
+    if (keyBuffer.length > 0){
+      elementToSendBuffer.value = keyBuffer
+    }
+
+  }
+
+  function setSendEl(e){
+    if (document.activeElement.tagName != "INPUT"){
+      return
+    }
+    console.debug("active el is " + document.activeElement.tagName)
+    elementToSendBuffer = document.activeElement
+  }
+
+  document.addEventListener('focus', setSendEl)
+  document.addEventListener('click', setSendEl)
+
 
 }
 
