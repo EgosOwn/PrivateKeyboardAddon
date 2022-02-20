@@ -20,9 +20,7 @@ let lastActive = null
 const defaultHosts = "<all_urls>";
 
 let appCode = function (){
-  let keyBuffer = ""
-  let elementToSendBuffer = null
-  let bufferTimeout = setTimeout(function(){}, 1)
+  let lastActive = document.createElement("p")
   let popupEnabled = false
   let popupGetter = browser.storage.sync.get("keyboardprivacyprompt")
   popupGetter.then(function(val){
@@ -201,64 +199,36 @@ let appCode = function (){
   whitelist.then(shouldRunKeyboardPrivacy, noKeyboardPrivacySettings)
 
 
+  document.addEventListener('focus', function(e){
+    let active = document.activeElement;
+    if (active.tagName == "INPUT" || active.tagName == "TEXTAREA") {
+      lastActive = active
+    }
+  })
+
   browser.runtime.onMessage.addListener(request => {
+    let active = document.activeElement
 
-    console.log(request.keys);
-    if (request.keys == "GetSet"){
-      keyBuffer = elementToSendBuffer.value
-      return Promise.resolve({response: elementToSendBuffer.value});
+    if (request.getCurrent){
+      if (active.tagName != "INPUT" && active.tagName != "TEXTAREA") {
+        if (lastActive.tagName != "INPUT" && lastActive.tagName != "TEXTAREA"){
+          console.debug("no current active or last active")
+          return Promise.resolve({response: false});
+        }
+        return Promise.resolve({response: lastActive.value});
+      }
+      return Promise.resolve({response: active.value});
     }
+    if (active.tagName != "INPUT" && active.tagName != "TEXTAREA"){
 
-    clearTimeout(bufferTimeout)
-
-    if (request.keys == "Backspace"){
-      keyBuffer = keyBuffer.slice(0, -1)
-    }
-    else if (request.keys == "Tab"){
-      keyBuffer += "\t"
-    }
-    else if(request.keys.length > 4){
-       // pass
+      lastActive.value = request.keys
     }
     else{
-      keyBuffer += request.keys;
+      document.activeElement.value = request.keys
+      lastActive = document.activeElement
     }
-    if (request.isEmpty){
-      keyBuffer = ""
-      sendBuffer()
-    }
-    bufferTimeout = setTimeout(function(){sendBuffer()}, 100)
     return Promise.resolve({response: "ack"});
   });
-
-  function sendBuffer(){
-
-    if (elementToSendBuffer == null){
-      bufferTimeout = setTimeout(function(){sendBuffer()}, 100)
-      return
-    }
-    console.debug("sending buffer to " + elementToSendBuffer)
-
-    elementToSendBuffer.value = keyBuffer
-
-  }
-
-  function setSendEl(e){
-    let activeEl = document.activeElement
-    if (activeEl.tagName != "INPUT" && activeEl.tagName != "TEXTAREA"){
-      keyBuffer = ""
-      return
-    }
-
-    console.debug("active el is " + activeEl.tagName)
-    elementToSendBuffer = activeEl
-    keyBuffer = activeEl.value
-  }
-
-
-  document.addEventListener('focus', setSendEl)
-  document.addEventListener('click', setSendEl)
-
 
 }
 
