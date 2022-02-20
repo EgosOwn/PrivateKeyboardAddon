@@ -214,6 +214,9 @@ let appCode = function (){
     if (request.keys == "Backspace"){
       keyBuffer = keyBuffer.slice(0, -1)
     }
+    else if (request.keys == "Tab"){
+      keyBuffer += "\t"
+    }
     else if(request.keys.length > 4){
        // pass
     }
