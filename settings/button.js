@@ -33,7 +33,7 @@ browser.storage.sync.get("keyboardprivacywhitelist")
         let hostname = extractHostname(tabVal[0].url).replace('www.', '')
         document.getElementById('siteDomain').innerText = hostname
         if (val.keyboardprivacywhitelist.includes(hostname)) {
-            document.getElementById('toggleSite').innerText = 'Enable Keyboard Privacy'
+            document.getElementById('toggleSite').innerText = 'Enable Slow Typing'
         }
     })
     .catch(reportError);
@@ -104,11 +104,11 @@ document.getElementById('toggleSite').onclick = async function(){
     }
     document.getElementById('toggleSite').setAttribute('disabled', true)
     if (document.getElementById('toggleSite').innerText.startsWith('Disable')){
-        document.getElementById('toggleSite').innerText = 'Enable Keyboard Privacy'
+        document.getElementById('toggleSite').innerText = 'Enable Slow Typing'
         changeWhitelist(document.getElementById('siteDomain').innerText, true)
     }
     else if (document.getElementById('toggleSite').innerText.startsWith('Enable')){
-        document.getElementById('toggleSite').innerText = 'Disable Keyboard Privacy'
+        document.getElementById('toggleSite').innerText = 'Disable Slow Typing'
         changeWhitelist(document.getElementById('siteDomain').innerText, false)
     }
     setTimeout(function(){fixDuplicateCommas()}, 1000)

@@ -36,8 +36,8 @@ let appCode = function (){
         document.selection.empty()
       }
   }
-  let minValue = 75
-  let maxValue = 150
+  let minValue = 50
+  let maxValue = 75
   let time = 0
   let last = null
 
@@ -100,9 +100,8 @@ let appCode = function (){
 
     function pausecomp(millis)
     {
-      // Yes i know this wastes cpu. i don't like it either, but it seems a blocking
-      // approach is needed to prevent spying event listeners from reading key events in *real time*
-      // Might use an off-page buffer solution in the future
+      // Yes i know this wastes cpu. i don't like it either, but it is the only way
+      // i know of to have real page keypress events that aren't trackable
         var date = new Date();
         var curDate = null;
         do { curDate = new Date(); }
