@@ -1,5 +1,17 @@
 let started = false
 
+useUnicode = false
+
+let usingUnicode = function(result){
+  console.debug(result)
+  if (result['keyboardprivacyunicode']){
+    useUnicode = true
+  }
+}
+
+let doUnicode = browser.storage.sync.get("keyboardprivacyunicode");
+doUnicode.then(usingUnicode, onError);
+
 function onError(error) {
     console.error(`Error: ${error}`);
   }
@@ -35,7 +47,12 @@ let sender = async function(e){
   }
 
     let sendMessageToTabs = function(tabs){
-        doSendMsg(document.getElementById('keyBuffer').value, tabs)
+      let val = document.getElementById('keyBuffer').value
+      if (useUnicode){
+        val = getUnicode(val)
+      }
+
+      doSendMsg(val, tabs)
     }
 
     browser.tabs.query({

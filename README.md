@@ -24,6 +24,14 @@ The easiest is to simply type on a page as normal. This method breaks the least 
 
 You can whitelist sites by using the button in the addon's popup or by manually adding them on the addon settings page.
 
+## Unicode Conversion
+
+There is a default disabled setting to convert ascii to look-alike unicode characters.
+
+This doesn't do a lot, but it makes it a bit harder to do 'sentiment-analysis' and breaks typical text search.
+
+This can also circumvent naive profanity filters.
+
 ## Toolbar input
 
 You can also enter text into the textarea in the toolbar button which will be instantly transfered to the page. This method allows you to type without lag, but it breaks on many websites and can still be tracked if a website is checking input changes as opposed to key events.

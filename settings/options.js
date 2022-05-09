@@ -27,6 +27,9 @@ function saveOptions(e) {
     browser.storage.sync.set({
       keyboardprivacyprompt: document.querySelector("#usePrompt").checked
     })
+    browser.storage.sync.set({
+      keyboardprivacyunicode: document.querySelector("#useUnicode").checked
+    })
     document.getElementById('saved').innerHTML = '<br><b>Saved</b>'
     setTimeout(function(){
       document.getElementById('saved').innerHTML = '<br>'
@@ -49,6 +52,10 @@ function saveOptions(e) {
       document.querySelector("#usePrompt").checked = result['keyboardprivacyprompt']
     }
 
+    function setCurrentUnicode(result){
+      document.querySelector("#useUnicode").checked = result['keyboardprivacyunicode']
+    }
+
     function onError(error) {
       console.log(`Error: ${error}`);
     }
@@ -61,6 +68,9 @@ function saveOptions(e) {
 
     let gettingPrompt = browser.storage.sync.get("keyboardprivacyprompt");
     gettingPrompt.then(setCurrentPrompt, onError);
+
+    let gettingUnicode = browser.storage.sync.get("keyboardprivacyunicode");
+    gettingUnicode.then(setCurrentUnicode, onError);
   }
 
   document.addEventListener("DOMContentLoaded", restoreOptions);
