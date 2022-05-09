@@ -47,9 +47,9 @@ To avoid using the mouse to do this, you can press ctrl+1 (config [the same way 
 * **This addon may not defeat all types of keyboard biometric surveillance**, however it was tested against the Keytrac and TypingDNA demos and it worked well.
 * **It is recommended to turn on privacy.resistFingerprinting to avoid leaking your keyboard layout; however this addon protects against that as well if you strictly use the toolbar box**
 * **This addon does not yet deal with stylometry**
-* Some websites override all key events in which case it is not (yet) possible to protect against keyboarding analysis there
+* Some websites override all key events in which case only the toolbar button can protect you (but it likely doesn't function if this is the case)
 * Typing directly on pages will have CPU spikes due to a browser limitation
-* Do not confuse this with spying keyboard apps on mobile devices, this cannot address that.
+* Of course, this cannot protect against malware on your device outside the webpage.
 * Not tested on Firefox Android
 -----
 
