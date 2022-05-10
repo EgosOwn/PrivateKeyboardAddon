@@ -9,6 +9,7 @@ let usingUnicode = function(result){
   }
 }
 
+
 let doUnicode = browser.storage.sync.get("keyboardprivacyunicode");
 doUnicode.then(usingUnicode, onError);
 

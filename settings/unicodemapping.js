@@ -1,3 +1,16 @@
+let randNum = function(minValue, maxValue){
+    let buf = new Uint8Array(1)
+    while (true){
+      window.crypto.getRandomValues(buf);
+
+      if (buf[0] <= maxValue && buf[0] >= minValue){
+        break;
+      }
+      buf = new Uint8Array(1);
+    }
+    return buf[0];
+  }
+
 let getUnicode = function(input){
     const uc =
         {
@@ -103,7 +116,7 @@ let getUnicode = function(input){
                 output += element
             }
             else{
-                output += uc[element][0]
+                output += uc[element][randNum(0, uc[element].length - 1)]
             }
         })
         return output
